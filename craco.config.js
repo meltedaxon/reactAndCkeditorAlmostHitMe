@@ -5,16 +5,10 @@ const { styles } = require("@ckeditor/ckeditor5-dev-utils");
 module.exports = {
   webpack: {
     configure: (config, { env, paths }) => {
-      config.plugins.push(
-        new CKEditorWebpackPlugin({
-          language: "en",
-          addMainLanguageTranslationsToAllAssets: true,
-        })
-      );
+      config.plugins.push(new CKEditorWebpackPlugin({ language: "en", addMainLanguageTranslationsToAllAssets: true}));
 
-      const regExpThemeIconSvg =
-        /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/;
-      const regExpThemeCss = /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/;
+      const regExpThemeIconSvg = /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/;
+      const regExpThemeCss = /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css/;
       const cssRegex = /\.css$/;
       const cssModuleRegex = /\.module\.css$/;
       config.module.rules.push(
@@ -26,6 +20,7 @@ module.exports = {
               loader: "style-loader",
               //   options: { injectType: "singletonStyleTag" }
             },
+            'css-loader',
             {
               loader: "postcss-loader",
               options: styles.getPostCssConfig({
@@ -43,7 +38,10 @@ module.exports = {
         if (rule.oneOf) {
           rule.oneOf.forEach((subRule) => {
             if (String(subRule.test) === String(cssRegex)) {
-              subRule.exclude = [cssModuleRegex, regExpThemeCss];
+              subRule.exclude = [
+                cssModuleRegex,
+                regExpThemeCss
+              ];
             }
 
             if (String(subRule.test) === String(cssModuleRegex)) {
