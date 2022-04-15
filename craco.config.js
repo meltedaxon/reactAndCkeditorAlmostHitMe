@@ -18,9 +18,8 @@ module.exports = {
           use: [
             {
               loader: "style-loader",
-              //   options: { injectType: "singletonStyleTag" }
             },
-            'css-loader',
+            "css-loader",
             {
               loader: "postcss-loader",
               options: styles.getPostCssConfig({
